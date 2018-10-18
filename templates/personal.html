@@ -1,0 +1,48 @@
+{% extends 'mybase.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+    个人中心{{ super() }}
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/personal.css') }}">
+{% endblock %}
+
+
+{% block main %}
+    {#    {{ wtf.quick_form(form) }}#}
+    <div class="avatar-group">
+        <img src="{{ user.avatar }}" alt="用户头像" class="avatar">
+    </div>
+    <div class="info-group">
+        <h1 class="user-title">
+            {{ user.username }}
+        </h1>
+        <p class="info-content">
+            {{ user.about_me }}
+        </p>
+        <p class="info-content">
+            {{ user.telephone }}
+        </p>
+        <p class="info-content">
+            {{ user.email }}
+        </p>
+        <p class="info-content">
+            {{ user.location }}
+        </p>
+        <p class="info-content">
+            注册时间：{{ user.member_since }}
+        </p>
+        <p class="info-content">
+            上次登录时间：{{ user.last_seen }}
+        </p>
+        <p class="info-content">
+            <button class="btn btn-primary">修改资料</button>
+            <button class="btn">修改密码</button>
+        </p>
+    </div>
+
+
+{% endblock %}

@@ -1,13 +1,22 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request, redirect, url_for, flash
 import config
 from models import User, Question, Answer
 from excts import db
 from decorators import login_required
+from flask_bootstrap import Bootstrap
+from myforms import PersonalForm
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
+bootstrap = Bootstrap(app)
+
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)
+
 
 
 @app.route('/')
@@ -32,7 +41,8 @@ def login():
             session.permanent = True
             return redirect(url_for('index'))
         else:
-            return "用户名或密码错误，请重新输入"
+            flash("用户名或密码错误，请重新输入")
+            return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -65,6 +75,16 @@ def logout():
     # session.pop('user_id')
     session.clear()
     return redirect('login')
+
+
+@app.route('/personal', methods=['GET', 'POST'])
+@login_required
+def personal():
+    user_id = session.get('user_id')
+    user = User.query.filter(User.id == user_id).first()
+    # form = PersonalForm()
+    # form.telephone.data = user.telephone
+    return render_template('personal.html', user=user)
 
 
 @app.route('/question/', methods=['GET', 'POST'])

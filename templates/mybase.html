@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}- ARC问答平台</title>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="{{ url_for('static',filename="css/bootstrap.min.css") }}"
-          >
-    <!-- BootStrap依赖的Jquery文件-->
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static',filename="css/base.css") }}">
-    <script src="{{ url_for('static',filename='js/common.js') }}"></script>
-    {% block head %}{% endblock %}
+{% extends "bootstrap/base.html" %}
 
-</head>
-<body>
+{% block title %} - ARC问答平台{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static',filename="css/base.css") }}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static',filename='js/common.js') }}"></script>
+{% endblock %}
+
+{% block navbar %}
     <nav class="navbar navbar-default">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -35,7 +32,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li >
+                    <li>
                         <a href="{{ url_for('index') }}">首页<span class="sr-only">(current)</span></a>
                     </li>
                     <li>
@@ -61,10 +58,21 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+{% endblock %}
 
-    <div class="main">
-        {% block main %}{% endblock %}
+{% block content %}
+    <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="main">
+            {% block main %}
+
+            {% endblock %}
+        </div>
     </div>
 
-</body>
-</html>
+{% endblock %}

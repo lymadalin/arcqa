@@ -8,6 +8,12 @@ class User(db.Model):
     telephone = db.Column(db.String(20),nullable=False)
     username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(100))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(), default=datetime.now)
+    last_seen = db.Column(db.DateTime(), default=datetime.now())
+    email = db.Column(db.String(100))
+    avatar = db.Column(db.String(200), default="/static/images/arcsign.png")
 
 
 class Question(db.Model):

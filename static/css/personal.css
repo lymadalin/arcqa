@@ -1,0 +1,27 @@
+.avatar-group {
+    width: 150px;
+    height: 100%;
+    float: left;
+}
+
+.avatar-group .avatar {
+    width: 150px;
+    height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+
+}
+
+.info-group {
+    float: left;
+    width: 550px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.user-title {
+    color: #259;
+    font-weight: 900;
+}
+
