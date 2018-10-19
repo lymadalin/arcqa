@@ -1,10 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'mybase.html' %}
 
 {% block title %}
-    发布问题
+    发布问题{{ super() }}
 {% endblock %}
 
 {% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/question.css') }}">
 {% endblock %}
 

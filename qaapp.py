@@ -18,13 +18,18 @@ configure_uploads(app, photos)
 patch_request_class(app)
 
 
-
 @app.route('/')
 def index():
-    content = {
-        'questions':Question.query.order_by('-create_time').all()
-    }
-    return render_template('index.html',**content)
+    page = request.args.get('page', 1, type=int)
+    pagination = Question.query.order_by(Question.create_time.desc()).paginate(
+        page, per_page=app.config['FLASKY_QUESTIONS_PER_PAGE'], error_out=False
+    )
+    questions = pagination.items
+
+    # content = {
+    #     'questions':Question.query.order_by('-create_time').all()
+    # }
+    return render_template('index.html', questions=questions, pagination=pagination)
 
 
 @app.route('/login', methods=['GET', 'POST'])

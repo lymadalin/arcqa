@@ -19,3 +19,5 @@ SQLALCHEMY_DATABASE_URI = "{}+{}://{}:{}@{}:{}/{}?charset=utf8".format(DIALECT, 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 UPLOADED_PHOTOS_DEST = os.path.abspath(os.path.join(os.getcwd(), "/static/avatar"))
+
+FLASKY_QUESTIONS_PER_PAGE = 2

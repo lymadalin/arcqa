@@ -1,10 +1,13 @@
-{% extends "base.html" %}
+{% extends "mybase.html" %}
+
+{% import "_macros.html" as marcos %}
 
 {% block title %}
-    首页
+    首页{{ super() }}
 {% endblock %}
 
 {% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
 {% endblock %}
 
@@ -37,4 +40,12 @@
         {% endfor %}
 
     </ul>
+{% endblock %}
+
+{% block page %}
+    {% if pagination %}
+        <div class="pagination">
+            {{ marcos.pagination_widget(pagination, '.index') }}
+        </div>
+    {% endif %}
 {% endblock %}
