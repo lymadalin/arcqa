@@ -17,7 +17,11 @@
     </p>
     <hr>
     <p class="question-content">
-        {{ question.content }}
+        {% if question.content_html %}
+            {{ question.content_html | safe }}
+        {% else %}
+            {{ question.content }}
+        {% endif %}
     </p>
     <hr>
     <h4>评论列表（0）</h4>

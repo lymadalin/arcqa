@@ -4,14 +4,20 @@ from models import User, Question, Answer
 from excts import db
 from decorators import login_required
 from flask_bootstrap import Bootstrap
-from myforms import PersonalForm
+from myforms import PersonalForm, QuestionForm
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_pagedown import PageDown
 
 
 app = Flask(__name__)
 app.config.from_object(config)
 db.init_app(app)
+
+db.event.listen(Question.content, 'set', Question.on_changed_content)
+
 bootstrap = Bootstrap(app)
+pagedown = PageDown()
+pagedown.init_app(app)
 
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
@@ -95,18 +101,32 @@ def personal():
 @app.route('/question/', methods=['GET', 'POST'])
 @login_required
 def question():
+    form = QuestionForm()
     if request.method == "GET":
-        return render_template('question.html')
+        return render_template("richquestion.html", form=form)
+        # 暂时注销
+        # return render_template('question.html')
     else:
-        title = request.form.get('title')
-        content = request.form.get('content')
-        question1 = Question(title=title, content=content)
-        user_id = session.get('user_id')
-        user = User.query.filter(User.id == user_id).first()
-        question1.author = user
-        db.session.add(question1)
-        db.session.commit()
-        return redirect(url_for('index'))
+        if form.validate_on_submit():
+            title = form.title.data
+            content = form.body.data
+            question1 = Question(title=title, content=content)
+            user_id = session.get('user_id')
+            user = User.query.filter(User.id == user_id).first()
+            question1.author = user
+            db.session.add(question1)
+            db.session.commit()
+            return redirect(url_for('index'))
+
+        # title = request.form.get('title')
+        # content = request.form.get('content')
+        # question1 = Question(title=title, content=content)
+        # user_id = session.get('user_id')
+        # user = User.query.filter(User.id == user_id).first()
+        # question1.author = user
+        # db.session.add(question1)
+        # db.session.commit()
+        # return redirect(url_for('index'))
 
 
 @app.route('/detail/<question_id>', methods=['GET'])

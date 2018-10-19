@@ -24,7 +24,11 @@
                     <a href="{{ url_for('detail', question_id = question.id)}}">{{ question.title }}</a>
                 </p>
                 <p class="question-content">
-                    {{ question.content }}
+                    {% if question.content_html %}
+                        {{ question.content_html | safe }}
+                    {% else %}
+                        {{ question.content }}
+                    {% endif %}
                 </p>
                 <div class="question-info">
                     <span class="question-author">
