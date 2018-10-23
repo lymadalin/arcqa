@@ -14,7 +14,9 @@
 {% block main %}
     {#    {{ wtf.quick_form(form) }}#}
     <div class="avatar-group">
-        <img src="{{ user.avatar }}" alt="用户头像" class="avatar">
+        <a href="{{ url_for('edit_avatar') }}">
+            <img src="{{ user.avatar }}" alt="用户头像" class="avatar">
+        </a>
     </div>
     <div class="info-group">
         <h1 class="user-title">

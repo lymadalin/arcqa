@@ -1,0 +1,18 @@
+{% extends 'mybase.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    编辑头像{{ super() }}
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/question.css') }}">
+{% endblock %}
+
+{% block main %}
+    <h3 class="page-title">修改头像</h3>
+    <div>
+        {{ wtf.quick_form(form) }}
+    </div>
+{% endblock %}

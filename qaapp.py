@@ -1,13 +1,12 @@
 from flask import Flask, render_template, session, request, redirect, url_for, flash
 import config
 from models import User, Question, Answer
-from excts import db
+from excts import db, photos
 from decorators import login_required
 from flask_bootstrap import Bootstrap
-from myforms import PersonalForm, QuestionForm
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from myforms import PersonalForm, QuestionForm, UploadForm
 from flask_pagedown import PageDown
-
+from flask_uploads import configure_uploads, patch_request_class
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -19,7 +18,7 @@ bootstrap = Bootstrap(app)
 pagedown = PageDown()
 pagedown.init_app(app)
 
-photos = UploadSet('photos', IMAGES)
+
 configure_uploads(app, photos)
 patch_request_class(app)
 
@@ -96,6 +95,25 @@ def personal():
     # form = PersonalForm()
     # form.telephone.data = user.telephone
     return render_template('personal.html', user=user)
+
+
+@app.route('/edit_avatar', methods=['GET', 'POST'])
+@login_required
+def edit_avatar():
+    form = UploadForm()
+    if form.validate_on_submit():
+        filename = photos.save(form.photo.data)
+        file_url = photos.url(filename)
+        user_id = session.get('user_id')
+        user = User.query.filter(User.id == user_id).first()
+        user.avatar = file_url
+        db.session.add(user)
+        db.session.commit()
+        flash('头像修改成功！')
+        return redirect(url_for('personal'))
+    return render_template('edit_avatar.html', form=form)
+
+
 
 
 @app.route('/question/', methods=['GET', 'POST'])
