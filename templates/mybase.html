@@ -48,7 +48,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user %}
                         <li>
-                            <a href="{{ url_for('personal') }}">
+                            <a href="{{ url_for('personal') }}" id="avatar_link">
                                 <img src="{{ user.avatar }}" alt="{{ user.username }}" class="personal_avatar">
                             </a>
                         </li>

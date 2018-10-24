@@ -29,9 +29,13 @@ body{
 }
 
 .personal_avatar {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
+}
+
+#avatar_link {
+    padding: 5px 0px;
 }
